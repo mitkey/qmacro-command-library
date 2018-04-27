@@ -140,6 +140,57 @@ Function 点击指定标识_直至匹配不到某标识(参数)
     点击指定标识_直至匹配不到某标识 = False
 End Function
 
+Function 点击指定标识_直至匹配到某标识(参数)
+    Dim numX1 = 参数(0)
+    Dim numY1= 参数(1)
+    Dim numX2 = 参数(2)
+    Dim numY2 = 参数(3)
+    Dim strFirst_color = 参数(4)
+    Dim strOffset_color = 参数(5)
+    Dim strMul_color = 参数(6)
+
+    // 查找方向
+    Dim tempDir = 0
+    // 相似度
+    Dim tempSim = 0.9
+    // 延迟
+    Dim tempDealyTime = 200
+	
+    // 点击过于频繁计算器
+    Dim tapCounter = 0
+	  
+    Dim intX,intY
+	
+    Do
+        FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
+        If intX > -1 And intY > -1 Then 
+            // 点击
+            Tap intX, intY
+            // 记录点击次数
+            tapCounter = tapCounter + 1
+        End If
+        
+        // 延迟检测
+        Delay tempDealyTime
+        
+        // 匹配到某标识
+        If CmpColorEx(strMul_color, tempSim) = 1 Then 
+            点击指定标识_直至匹配到某标识 = True
+            Exit Function
+        End If
+		
+        // 点击多次，都未匹配到某标识
+        If tapCounter >= 20 Then 
+            TracePrint "点击过于频繁：", intX,intY
+           
+            点击指定标识_直至匹配到某标识 = False
+            Exit Function
+        End If
+    Loop
+
+    点击指定标识_直至匹配到某标识 = False
+End Function
+
 Function 点击指定标识(参数)
     Dim numX1 = 参数(0)
     Dim numY1= 参数(1)
