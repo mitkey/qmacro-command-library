@@ -287,8 +287,6 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
     // 是否需要检测某标识
     Dim tempNeedCheckTag = strMul_color2 <> Null
 
-    // 相似度
-    Dim tempSim = 0.9
     // 延迟
     Dim tempDealyTime = 200
     
@@ -297,9 +295,15 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
     // 检测某标识计算器
     Dim checkTagCounter = 0
     
-    Do		
+    Do
+        // 提前结束
+        If tempNeedCheckTag And 检测是否存在指定标识(strMul_color2) Then 
+            匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
+            Exit Function
+        End If
+    	
         // 匹配指定标识
-        If CmpColorEx(strMul_color1, tempSim) = 1 Then 
+        If 检测是否存在指定标识(strMul_color1) Then 
             // 点击
             Tap numExpectTapX, numExpectTapY
             // 记录点击次数
@@ -324,7 +328,7 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
         If tempNeedCheckTag Then 
 			
             // 匹配某标识
-            If CmpColorEx(strMul_color2, tempSim) = 1 Then 
+            If 检测是否存在指定标识(strMul_color2) Then 
                 匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
                 Exit Function
             End If
