@@ -1,0 +1,231 @@
+// 全称 ingenuity
+
+// =================================
+
+
+Function ui_rBoolean(name,defValue)
+    Dim result = ReadUIConfig(name,defValue)
+    ui_rBoolean = CBool(result)
+End Function
+
+Function ui_rInt(name, defValue)
+    Dim result= ReadUIConfig(name,defValue)
+    ui_rInt = CInt(result)
+End Function
+
+Function ui_rLong(name,defValue)
+    Dim result = ReadUIConfig(name,defValue)
+    ui_rLong = CLng(result)
+End Function
+
+Function ui_rFloat(name,defValue)
+    Dim result = ReadUIConfig(name,defValue)
+    ui_rFloat = CSng(result)
+End Function
+
+Function ui_rDouble(name,defValue)
+    Dim result = ReadUIConfig(name,defValue)
+    ui_rDouble = CDbl(result)
+End Function
+
+Function ui_rString(name,defValue)
+    ui_rString = ReadUIConfig(name,defValue)
+End Function
+
+
+// =================================
+
+
+Function 高级的精准滑动(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
+    TouchDown stx, sty,id
+    Delay stdelay
+    
+    If stx >= endx and sty >= endy Then 
+        // 从右下角滑动到左上角
+        TouchMove endx-1, endy-1, id, movedelay/2
+        Delay movedelay/4
+        TouchMove endx, endy, id, movedelay / 4
+    ElseIf stx >= endx and sty <= endy Then
+        // 从右上角滑动到左下角
+        TouchMove endx-1, endy+1, id, movedelay/2
+        Delay movedelay/4
+        TouchMove endx, endy, id, movedelay / 4
+    ElseIf stx <= endx and sty <= endy Then
+        // 从左上角滑动到右下角
+        TouchMove endx+1, endy+1, id, movedelay/2
+        Delay movedelay/4
+        TouchMove endx, endy, id, movedelay / 4
+    ElseIf stx <= endx and sty >= endy Then
+        // 从左下角滑动到右上角
+        TouchMove endx+1, endy-1, id, movedelay/2
+        Delay movedelay/4
+        TouchMove endx, endy, id, movedelay / 4
+    End If
+    
+    Delay enddelay
+    TouchUp id
+End Function
+
+
+Function 精简的精准滑动(sx,sy,ex,ey)
+
+    TouchDown sx, sy, 1
+    Delay 300
+	
+    TouchMove ex + 1, ey + 1, 1, 800
+    Delay 200
+	
+    TouchMove ex, ey, 1, 200
+    Delay 200
+	
+    TouchUp 1
+	
+End Function
+
+// ================================
+
+
+Function 检测是否存在指定标识(strMul_color)
+    // 相似度
+    Dim tempSim = 0.9
+
+    If CmpColorEx(strMul_color,tempSim) = 1 Then
+        检测是否存在指定标识 = True
+    Else
+        检测是否存在指定标识 = False
+    End If
+End Function
+
+Function 点击指定标识(参数)
+
+    Dim numX1 = 参数(0)
+    Dim numY1= 参数(1)
+    Dim numX2 = 参数(2)
+    Dim numY2 = 参数(3)
+    Dim strFirst_color = 参数(4)
+    Dim strOffset_color = 参数(5)
+
+    // 查找方向
+    Dim tempDir = 0
+    // 相似度
+    Dim tempSim = 0.9
+    // 延迟
+    Dim tempDealyTime = 200
+	
+    // 计算器
+    Dim counter = 0
+	  
+    Dim intX,intY
+	
+    Do
+        FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
+        If intX > -1 And intY > -1 Then 
+            // 点击
+            Tap intX, intY
+            // 点击后延迟，用于界面响应
+            Delay tempDealyTime
+			
+            点击指定标识 = True
+            Exit Function
+        End If
+        
+        // 多次检测未果
+        If counter >= 50 Then 
+            TracePrint "多次尝试点击指定标识失败：",numX1,numY1,numX2,numY2,strFirst_color,strOffset_color
+           
+            点击指定标识 = False
+            Exit Function
+        Else 
+            counter = counter +1
+        End If
+
+    Loop
+
+    点击指定标识 = False
+	
+End Function
+
+Function 匹配到指定标识_点击指定坐标_直至匹配到成功标识(参数)
+	
+    // 多点比色指定标识
+    Dim strMul_color1 = 参数(0)
+    // 期望点击的 x 坐标
+    Dim numExpectTapX = 参数(1)
+    // 期望点击的 y 坐标
+    Dim numExpectTapY = 参数(2)
+    // 多点比色成功标识 ---> 非 null 才需要匹配
+    Dim strMul_color2 = 参数(3)
+
+    // 是否需要检测成功标识
+    Dim tempNeedCheckSuccessTag = strMul_color2 <> Null
+
+    // 相似度
+    Dim tempSim = 0.9
+    // 延迟
+    Dim tempDealyTime = 200
+    
+    // 点击过于频繁计算器
+    Dim tapCounter = 0
+    // 检测成功计算器
+    Dim checkSuccessCounter = 0
+    
+    Do		
+        // 匹配指定标识
+        If CmpColorEx(strMul_color1, tempSim) = 1 Then 
+            // 点击
+            Tap numExpectTapX, numExpectTapY
+            // 记录点击次数
+            tapCounter = tapCounter + 1
+
+            If tempNeedCheckSuccessTag Then 
+                // 需要检测
+            	 
+                // 点击后需要重新检测成功标识
+                checkSuccessCounter = 0
+                // 点击后延迟，用于界面响应
+                Delay tempDealyTime
+            Else 
+                // 不需要检测
+                匹配到指定标识_点击指定坐标_直至匹配到成功标识 = True
+                Exit Function
+            End If
+            
+        End If
+		
+        // 有成功标识才需要匹配
+        If tempNeedCheckSuccessTag Then 
+			
+            // 匹配成功标识
+            If CmpColorEx(strMul_color2, tempSim) = 1 Then 
+                匹配到指定标识_点击指定坐标_直至匹配到成功标识 = True
+                Exit Function
+            End If
+			
+            // 多次检测成功标识未果
+            If checkSuccessCounter >= 50 Then 
+                TracePrint "多次检测成功标识未果：" & strMul_color2
+            	
+                匹配到指定标识_点击指定坐标_直至匹配到成功标识 = False
+                Exit Function
+            Else 
+                checkSuccessCounter = checkSuccessCounter +1
+            End If
+			
+        End If
+		
+       
+        
+        // 点击多次，都未匹配到成功标识
+        If tapCounter >= 20 Then 
+            TracePrint "点击过于频繁：", numExpectTapX,numExpectTapY
+           
+            匹配到指定标识_点击指定坐标_直至匹配到成功标识 = False
+            Exit Function
+        End If
+        
+        // 设置下次检测间隔
+        Delay tempDealyTime		
+    Loop
+	
+    匹配到指定标识_点击指定坐标_直至匹配到成功标识 = False
+End Function
