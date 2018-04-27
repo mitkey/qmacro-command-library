@@ -31,6 +31,19 @@ Function ui_rString(name,defValue)
     ui_rString = ReadUIConfig(name,defValue)
 End Function
 
+Function arrayAppend(srcArray, item)
+    Dim result = Clone(srcArray)
+    Dim len = UBound(result)
+    If len = -1 Then 
+        result(0) = item
+        arrayAppend = result
+        Exit Function
+    End If
+
+    result(len-1) = item
+    arrayAppend = result
+End Function
+
 // =================================
 
 Function 高级的精准滑动(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
