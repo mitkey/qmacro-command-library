@@ -186,7 +186,7 @@ Function 点击指定标识(参数)
     点击指定标识 = False
 End Function
 
-Function 点击指定坐标_直至匹配到成功标识(参数)
+Function 点击指定坐标_直至匹配到某标识(参数)
     Dim numTapX = 参数(0)
     Dim numTapY = 参数(1)
     Dim strMul_color = 参数(3)
@@ -200,7 +200,7 @@ Function 点击指定坐标_直至匹配到成功标识(参数)
     Do
 		
         If 检测是否存在指定标识(strMul_color) Then 
-            点击指定坐标_直至匹配到成功标识 = True
+            点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
 		
@@ -209,17 +209,17 @@ Function 点击指定坐标_直至匹配到成功标识(参数)
 		
         Delay tempDealyTime
 		
-        // 点击多次，都能不能匹配到指定标识
+        // 点击多次，都能不能匹配到某标识
         If tapCounter >= 20 Then 
             TracePrint "点击过于频繁：", numTapX,numTapY
 			   
-            点击指定坐标_直至匹配到成功标识 = False
+            点击指定坐标_直至匹配到某标识 = False
             Exit Function
         End If
 		
     Loop
 	
-    点击指定坐标_直至匹配到成功标识 = False
+    点击指定坐标_直至匹配到某标识 = False
 	
 End Function
 
