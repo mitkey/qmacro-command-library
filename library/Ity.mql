@@ -2,7 +2,6 @@
 
 // =================================
 
-
 Function ui_rBoolean(name,defValue)
     Dim result = ReadUIConfig(name,defValue)
     ui_rBoolean = CBool(result)
@@ -32,9 +31,7 @@ Function ui_rString(name,defValue)
     ui_rString = ReadUIConfig(name,defValue)
 End Function
 
-
 // =================================
-
 
 Function 高级的精准滑动(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
     TouchDown stx, sty,id
@@ -66,9 +63,7 @@ Function 高级的精准滑动(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
     TouchUp id
 End Function
 
-
 Function 精简的精准滑动(sx,sy,ex,ey)
-
     TouchDown sx, sy, 1
     Delay 300
 	
@@ -79,11 +74,9 @@ Function 精简的精准滑动(sx,sy,ex,ey)
     Delay 200
 	
     TouchUp 1
-	
 End Function
 
 // ================================
-
 
 Function 检测是否存在指定标识(strMul_color)
     // 相似度
@@ -96,8 +89,58 @@ Function 检测是否存在指定标识(strMul_color)
     End If
 End Function
 
-Function 点击指定标识(参数)
+Function 点击指定标识_直至匹配不到某标识(参数)
+    Dim numX1 = 参数(0)
+    Dim numY1= 参数(1)
+    Dim numX2 = 参数(2)
+    Dim numY2 = 参数(3)
+    Dim strFirst_color = 参数(4)
+    Dim strOffset_color = 参数(5)
+    Dim strMul_color = 参数(6)
 
+    // 查找方向
+    Dim tempDir = 0
+    // 相似度
+    Dim tempSim = 0.9
+    // 延迟
+    Dim tempDealyTime = 200
+	
+    // 点击过于频繁计算器
+    Dim tapCounter = 0
+	  
+    Dim intX,intY
+	
+    Do
+        FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
+        If intX > -1 And intY > -1 Then 
+            // 点击
+            Tap intX, intY
+            // 记录点击次数
+            tapCounter = tapCounter + 1
+        End If
+        
+        // 延迟检测
+        Delay tempDealyTime
+        
+        // 匹配不到某标识
+        If CmpColorEx(strMul_color, tempSim) = -1 Then 
+            点击指定标识_直至匹配不到某标识 = True
+            Exit Function
+        End If
+		
+        // 点击多次，都能匹配到某标识
+        If tapCounter >= 20 Then 
+            TracePrint "点击过于频繁：", intX,intY
+           
+            点击指定标识_直至匹配不到某标识 = False
+            Exit Function
+        End If
+    Loop
+
+    点击指定标识_直至匹配不到某标识 = False
+End Function
+
+Function 点击指定标识(参数)
     Dim numX1 = 参数(0)
     Dim numY1= 参数(1)
     Dim numX2 = 参数(2)
@@ -138,15 +181,12 @@ Function 点击指定标识(参数)
         Else 
             counter = counter +1
         End If
-
     Loop
 
     点击指定标识 = False
-	
 End Function
 
 Function 匹配到指定标识_点击指定坐标_直至匹配到成功标识(参数)
-	
     // 多点比色指定标识
     Dim strMul_color1 = 参数(0)
     // 期望点击的 x 坐标
@@ -212,8 +252,6 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到成功标识(参数)
             End If
 			
         End If
-		
-       
         
         // 点击多次，都未匹配到成功标识
         If tapCounter >= 20 Then 
