@@ -1,4 +1,4 @@
-// È«³Æ ingenuity
+// å…¨ç§° ingenuity
 
 // =================================
 
@@ -40,33 +40,33 @@ Function arrayAppend(srcArray, item)
         Exit Function
     End If
 
-    result(len-1) = item
+    result(len+1) = item
     arrayAppend = result
 End Function
 
 // =================================
 
-Function ¸ß¼¶µÄ¾«×¼»¬¶¯(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
+Function é«˜çº§çš„ç²¾å‡†æ»‘åŠ¨(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
     TouchDown stx, sty,id
     Delay stdelay
     
     If stx >= endx and sty >= endy Then 
-        // ´ÓÓÒÏÂ½Ç»¬¶¯µ½×óÉÏ½Ç
+        // ä»å³ä¸‹è§’æ»‘åŠ¨åˆ°å·¦ä¸Šè§’
         TouchMove endx-1, endy-1, id, movedelay/2
         Delay movedelay/4
         TouchMove endx, endy, id, movedelay / 4
     ElseIf stx >= endx and sty <= endy Then
-        // ´ÓÓÒÉÏ½Ç»¬¶¯µ½×óÏÂ½Ç
+        // ä»å³ä¸Šè§’æ»‘åŠ¨åˆ°å·¦ä¸‹è§’
         TouchMove endx-1, endy+1, id, movedelay/2
         Delay movedelay/4
         TouchMove endx, endy, id, movedelay / 4
     ElseIf stx <= endx and sty <= endy Then
-        // ´Ó×óÉÏ½Ç»¬¶¯µ½ÓÒÏÂ½Ç
+        // ä»å·¦ä¸Šè§’æ»‘åŠ¨åˆ°å³ä¸‹è§’
         TouchMove endx+1, endy+1, id, movedelay/2
         Delay movedelay/4
         TouchMove endx, endy, id, movedelay / 4
     ElseIf stx <= endx and sty >= endy Then
-        // ´Ó×óÏÂ½Ç»¬¶¯µ½ÓÒÉÏ½Ç
+        // ä»å·¦ä¸‹è§’æ»‘åŠ¨åˆ°å³ä¸Šè§’
         TouchMove endx+1, endy-1, id, movedelay/2
         Delay movedelay/4
         TouchMove endx, endy, id, movedelay / 4
@@ -76,7 +76,7 @@ Function ¸ß¼¶µÄ¾«×¼»¬¶¯(stx, sty, endx, endy, stdelay, movedelay, enddelay,id)
     TouchUp id
 End Function
 
-Function ¾«¼òµÄ¾«×¼»¬¶¯(sx,sy,ex,ey)
+Function ç²¾ç®€çš„ç²¾å‡†æ»‘åŠ¨(sx,sy,ex,ey)
     TouchDown sx, sy, 1
     Delay 300
 	
@@ -91,34 +91,34 @@ End Function
 
 // ================================
 
-Function ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶(strMul_color)
-    // ÏàËÆ¶È
+Function æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯†(strMul_color)
+    // ç›¸ä¼¼åº¦
     Dim tempSim = 0.9
 
     If CmpColorEx(strMul_color,tempSim) = 1 Then
-        ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶ = True
+        æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯† = True
     Else
-        ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶ = False
+        æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯† = False
     End If
 End Function
 
-Function µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åä²»µ½Ä³±êÊ¶(²ÎÊı)
-    Dim numX1 = ²ÎÊı(0)
-    Dim numY1= ²ÎÊı(1)
-    Dim numX2 = ²ÎÊı(2)
-    Dim numY2 = ²ÎÊı(3)
-    Dim strFirst_color = ²ÎÊı(4)
-    Dim strOffset_color = ²ÎÊı(5)
-    Dim strMul_color = ²ÎÊı(6)
+Function ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…ä¸åˆ°æŸæ ‡è¯†(å‚æ•°)
+    Dim numX1 = å‚æ•°(0)
+    Dim numY1= å‚æ•°(1)
+    Dim numX2 = å‚æ•°(2)
+    Dim numY2 = å‚æ•°(3)
+    Dim strFirst_color = å‚æ•°(4)
+    Dim strOffset_color = å‚æ•°(5)
+    Dim strMul_color = å‚æ•°(6)
 
-    // ²éÕÒ·½Ïò
+    // æŸ¥æ‰¾æ–¹å‘
     Dim tempDir = 0
-    // ÏàËÆ¶È
+    // ç›¸ä¼¼åº¦
     Dim tempSim = 0.9
-    // ÑÓ³Ù
+    // å»¶è¿Ÿ
     Dim tempDealyTime = 200
 	
-    // µã»÷¹ıÓÚÆµ·±¼ÆËãÆ÷
+    // ç‚¹å‡»è¿‡äºé¢‘ç¹è®¡ç®—å™¨
     Dim tapCounter = 0
 	  
     Dim intX,intY
@@ -126,50 +126,50 @@ Function µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åä²»µ½Ä³±êÊ¶(²ÎÊı)
     Do
         FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
         If intX > -1 And intY > -1 Then 
-            // µã»÷
+            // ç‚¹å‡»
             Tap intX, intY
-            // ¼ÇÂ¼µã»÷´ÎÊı
+            // è®°å½•ç‚¹å‡»æ¬¡æ•°
             tapCounter = tapCounter + 1
         End If
         
-        // ÑÓ³Ù¼ì²â
+        // å»¶è¿Ÿæ£€æµ‹
         Delay tempDealyTime
         
-        // Æ¥Åä²»µ½Ä³±êÊ¶
-        If CmpColorEx(strMul_color, tempSim) = -1 Then 
-            µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åä²»µ½Ä³±êÊ¶ = True
+        // åŒ¹é…ä¸åˆ°æŸæ ‡è¯†
+        If CmpColorEx(strMul_color, tempSim) <> 1 Then 
+            ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…ä¸åˆ°æŸæ ‡è¯† = True
             Exit Function
         End If
 		
-        // µã»÷¶à´Î£¬¶¼ÄÜÆ¥Åäµ½Ä³±êÊ¶
+        // ç‚¹å‡»å¤šæ¬¡ï¼Œéƒ½èƒ½åŒ¹é…åˆ°æŸæ ‡è¯†
         If tapCounter >= 20 Then 
-            TracePrint "µã»÷¹ıÓÚÆµ·±£º", intX,intY
+            TracePrint "ç‚¹å‡»è¿‡äºé¢‘ç¹ï¼š", intX,intY
            
-            µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åä²»µ½Ä³±êÊ¶ = False
+            ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…ä¸åˆ°æŸæ ‡è¯† = False
             Exit Function
         End If
     Loop
 
-    µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åä²»µ½Ä³±êÊ¶ = False
+    ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…ä¸åˆ°æŸæ ‡è¯† = False
 End Function
 
-Function µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶(²ÎÊı)
-    Dim numX1 = ²ÎÊı(0)
-    Dim numY1= ²ÎÊı(1)
-    Dim numX2 = ²ÎÊı(2)
-    Dim numY2 = ²ÎÊı(3)
-    Dim strFirst_color = ²ÎÊı(4)
-    Dim strOffset_color = ²ÎÊı(5)
-    Dim strMul_color = ²ÎÊı(6)
+Function ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯†(å‚æ•°)
+    Dim numX1 = å‚æ•°(0)
+    Dim numY1= å‚æ•°(1)
+    Dim numX2 = å‚æ•°(2)
+    Dim numY2 = å‚æ•°(3)
+    Dim strFirst_color = å‚æ•°(4)
+    Dim strOffset_color = å‚æ•°(5)
+    Dim strMul_color = å‚æ•°(6)
 
-    // ²éÕÒ·½Ïò
+    // æŸ¥æ‰¾æ–¹å‘
     Dim tempDir = 0
-    // ÏàËÆ¶È
+    // ç›¸ä¼¼åº¦
     Dim tempSim = 0.9
-    // ÑÓ³Ù
+    // å»¶è¿Ÿ
     Dim tempDealyTime = 200
 	
-    // µã»÷¹ıÓÚÆµ·±¼ÆËãÆ÷
+    // ç‚¹å‡»è¿‡äºé¢‘ç¹è®¡ç®—å™¨
     Dim tapCounter = 0
 	  
     Dim intX,intY
@@ -177,94 +177,78 @@ Function µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶(²ÎÊı)
     Do
         FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
         If intX > -1 And intY > -1 Then 
-            // µã»÷
+            // ç‚¹å‡»
             Tap intX, intY
-            // ¼ÇÂ¼µã»÷´ÎÊı
+            // è®°å½•ç‚¹å‡»æ¬¡æ•°
             tapCounter = tapCounter + 1
         End If
         
-        // ÑÓ³Ù¼ì²â
+        // å»¶è¿Ÿæ£€æµ‹
         Delay tempDealyTime
         
-        // Æ¥Åäµ½Ä³±êÊ¶
+        // åŒ¹é…åˆ°æŸæ ‡è¯†
         If CmpColorEx(strMul_color, tempSim) = 1 Then 
-            µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = True
+            ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = True
             Exit Function
         End If
 		
-        // µã»÷¶à´Î£¬¶¼Î´Æ¥Åäµ½Ä³±êÊ¶
+        // ç‚¹å‡»å¤šæ¬¡ï¼Œéƒ½æœªåŒ¹é…åˆ°æŸæ ‡è¯†
         If tapCounter >= 20 Then 
-            TracePrint "µã»÷¹ıÓÚÆµ·±£º", intX,intY
+            TracePrint "ç‚¹å‡»è¿‡äºé¢‘ç¹ï¼š", intX,intY
            
-            µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+            ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
             Exit Function
         End If
     Loop
 
-    µã»÷Ö¸¶¨±êÊ¶_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+    ç‚¹å‡»æŒ‡å®šæ ‡è¯†_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
 End Function
 
-Function µã»÷Ö¸¶¨±êÊ¶(²ÎÊı)
-    Dim numX1 = ²ÎÊı(0)
-    Dim numY1= ²ÎÊı(1)
-    Dim numX2 = ²ÎÊı(2)
-    Dim numY2 = ²ÎÊı(3)
-    Dim strFirst_color = ²ÎÊı(4)
-    Dim strOffset_color = ²ÎÊı(5)
+Function ç‚¹å‡»æŒ‡å®šæ ‡è¯†(å‚æ•°)
+    Dim numX1 = å‚æ•°(0)
+    Dim numY1= å‚æ•°(1)
+    Dim numX2 = å‚æ•°(2)
+    Dim numY2 = å‚æ•°(3)
+    Dim strFirst_color = å‚æ•°(4)
+    Dim strOffset_color = å‚æ•°(5)
 
-    // ²éÕÒ·½Ïò
+    // æŸ¥æ‰¾æ–¹å‘
     Dim tempDir = 0
-    // ÏàËÆ¶È
+    // ç›¸ä¼¼åº¦
     Dim tempSim = 0.9
-    // ÑÓ³Ù
+    // å»¶è¿Ÿ
     Dim tempDealyTime = 200
-	
-    // ¼ÆËãÆ÷
-    Dim counter = 0
-	  
+		  
     Dim intX,intY
-	
-    Do
-        FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
-        If intX > -1 And intY > -1 Then 
-            // µã»÷
-            Tap intX, intY
-            // µã»÷ºóÑÓ³Ù£¬ÓÃÓÚ½çÃæÏìÓ¦
-            Delay tempDealyTime
+    FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
+    If intX > -1 And intY > -1 Then 
+        // ç‚¹å‡»
+        Tap intX, intY
+        // ç‚¹å‡»åå»¶è¿Ÿï¼Œç”¨äºç•Œé¢å“åº”
+        Delay tempDealyTime
 			
-            µã»÷Ö¸¶¨±êÊ¶ = True
-            Exit Function
-        End If
-        
-        // ¶à´Î¼ì²âÎ´¹û
-        If counter >= 50 Then 
-            TracePrint "¶à´Î³¢ÊÔµã»÷Ö¸¶¨±êÊ¶Ê§°Ü£º",numX1,numY1,numX2,numY2,strFirst_color,strOffset_color
-           
-            µã»÷Ö¸¶¨±êÊ¶ = False
-            Exit Function
-        Else 
-            counter = counter +1
-        End If
-    Loop
-
-    µã»÷Ö¸¶¨±êÊ¶ = False
+        ç‚¹å‡»æŒ‡å®šæ ‡è¯† = True
+        Exit Function
+    Else 
+        ç‚¹å‡»æŒ‡å®šæ ‡è¯† = False
+    End If
 End Function
 
-Function µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶(²ÎÊı)
-    Dim numTapX = ²ÎÊı(0)
-    Dim numTapY = ²ÎÊı(1)
-    Dim strMul_color = ²ÎÊı(3)
+Function ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯†(å‚æ•°)
+    Dim numTapX = å‚æ•°(0)
+    Dim numTapY = å‚æ•°(1)
+    Dim strMul_color = å‚æ•°(3)
 	
-    // ÑÓ³Ù
+    // å»¶è¿Ÿ
     Dim tempDealyTime = 200
 	
-    // µã»÷¹ıÓÚÆµ·±¼ÆËãÆ÷
+    // ç‚¹å‡»è¿‡äºé¢‘ç¹è®¡ç®—å™¨
     Dim tapCounter = 0
 	
     Do
 		
-        If ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶(strMul_color) Then 
-            µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = True
+        If æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯†(strMul_color) Then 
+            ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = True
             Exit Function
         End If
 		
@@ -273,84 +257,105 @@ Function µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶(²ÎÊı)
 		
         Delay tempDealyTime
 		
-        // µã»÷¶à´Î£¬¶¼ÄÜ²»ÄÜÆ¥Åäµ½Ä³±êÊ¶
+        // ç‚¹å‡»å¤šæ¬¡ï¼Œéƒ½èƒ½ä¸èƒ½åŒ¹é…åˆ°æŸæ ‡è¯†
         If tapCounter >= 20 Then 
-            TracePrint "µã»÷¹ıÓÚÆµ·±£º", numTapX,numTapY
+            TracePrint "ç‚¹å‡»è¿‡äºé¢‘ç¹ï¼š", numTapX,numTapY
 			   
-            µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+            ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
             Exit Function
         End If
 		
     Loop
 	
-    µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+    ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
 	
 End Function
 
-Function Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶(²ÎÊı)
-    // ¶àµã±ÈÉ«Ö¸¶¨±êÊ¶
-    Dim strMul_color1 = ²ÎÊı(0)
-    // ÆÚÍûµã»÷µÄ x ×ø±ê
-    Dim numExpectTapX = ²ÎÊı(1)
-    // ÆÚÍûµã»÷µÄ y ×ø±ê
-    Dim numExpectTapY = ²ÎÊı(2)
-    // ¶àµã±ÈÉ«Ä³±êÊ¶ ---> ·Ç null ²ÅĞèÒªÆ¥Åä
-    Dim strMul_color2 = ²ÎÊı(3)
+Function åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†æ—¶_ç‚¹å‡»æŒ‡å®šåæ ‡(å‚æ•°)
+    // å¤šç‚¹æ¯”è‰²æŒ‡å®šæ ‡è¯†
+    Dim strMul_color1 = å‚æ•°(0)
+    // æœŸæœ›ç‚¹å‡»çš„ x åæ ‡
+    Dim numExpectTapX = å‚æ•°(1)
+    // æœŸæœ›ç‚¹å‡»çš„ y åæ ‡
+    Dim numExpectTapY = å‚æ•°(2)
+    
+    // åŒ¹é…æŒ‡å®šæ ‡è¯†
+    If æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯†(strMul_color1) Then 
+        // ç‚¹å‡»
+        Tap numExpectTapX, numExpectTapY
 
-    // ÊÇ·ñĞèÒª¼ì²âÄ³±êÊ¶
+        åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†æ—¶_ç‚¹å‡»æŒ‡å®šåæ ‡ = True
+        Exit Function
+    End If
+    
+    åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†æ—¶_ç‚¹å‡»æŒ‡å®šåæ ‡ = False
+    
+End Function
+
+Function åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯†(å‚æ•°)
+    // å¤šç‚¹æ¯”è‰²æŒ‡å®šæ ‡è¯†
+    Dim strMul_color1 = å‚æ•°(0)
+    // æœŸæœ›ç‚¹å‡»çš„ x åæ ‡
+    Dim numExpectTapX = å‚æ•°(1)
+    // æœŸæœ›ç‚¹å‡»çš„ y åæ ‡
+    Dim numExpectTapY = å‚æ•°(2)
+    // å¤šç‚¹æ¯”è‰²æŸæ ‡è¯† ---> é null æ‰éœ€è¦åŒ¹é…
+    Dim strMul_color2 = å‚æ•°(3)
+
+    // æ˜¯å¦éœ€è¦æ£€æµ‹æŸæ ‡è¯†
     Dim tempNeedCheckTag = strMul_color2 <> Null
 
-    // ÑÓ³Ù
+    // å»¶è¿Ÿ
     Dim tempDealyTime = 200
     
-    // µã»÷¹ıÓÚÆµ·±¼ÆËãÆ÷
+    // ç‚¹å‡»è¿‡äºé¢‘ç¹è®¡ç®—å™¨
     Dim tapCounter = 0
-    // ¼ì²âÄ³±êÊ¶¼ÆËãÆ÷
+    // æ£€æµ‹æŸæ ‡è¯†è®¡ç®—å™¨
     Dim checkTagCounter = 0
     
     Do
-        // ÌáÇ°½áÊø
-        If tempNeedCheckTag And ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶(strMul_color2) Then 
-            Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = True
+        // æå‰ç»“æŸ
+        If tempNeedCheckTag And æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯†(strMul_color2) Then 
+            åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = True
             Exit Function
         End If
     	
-        // Æ¥ÅäÖ¸¶¨±êÊ¶
-        If ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶(strMul_color1) Then 
-            // µã»÷
+        // åŒ¹é…æŒ‡å®šæ ‡è¯†
+        If æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯†(strMul_color1) Then 
+            // ç‚¹å‡»
             Tap numExpectTapX, numExpectTapY
-            // ¼ÇÂ¼µã»÷´ÎÊı
+            // è®°å½•ç‚¹å‡»æ¬¡æ•°
             tapCounter = tapCounter + 1
 
-            // ĞèÒª¼ì²âÄ³±êÊ¶	 
+            // éœ€è¦æ£€æµ‹æŸæ ‡è¯†	 
             If tempNeedCheckTag Then 
                
-                // µã»÷ºóĞèÒªÖØĞÂ¼ì²âÄ³±êÊ¶
+                // ç‚¹å‡»åéœ€è¦é‡æ–°æ£€æµ‹æŸæ ‡è¯†
                 checkTagCounter = 0
-                // µã»÷ºóÑÓ³Ù£¬ÓÃÓÚ½çÃæÏìÓ¦
+                // ç‚¹å‡»åå»¶è¿Ÿï¼Œç”¨äºç•Œé¢å“åº”
                 Delay tempDealyTime
             Else 
-                // ²»ĞèÒª¼ì²â
-                Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = True
+                // ä¸éœ€è¦æ£€æµ‹
+                åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = True
                 Exit Function
             End If
             
         End If
 		
-        // ĞèÒª¼ì²âÄ³±êÊ¶
+        // éœ€è¦æ£€æµ‹æŸæ ‡è¯†
         If tempNeedCheckTag Then 
 			
-            // Æ¥ÅäÄ³±êÊ¶
-            If ¼ì²âÊÇ·ñ´æÔÚÖ¸¶¨±êÊ¶(strMul_color2) Then 
-                Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = True
+            // åŒ¹é…æŸæ ‡è¯†
+            If æ£€æµ‹æ˜¯å¦å­˜åœ¨æŒ‡å®šæ ‡è¯†(strMul_color2) Then 
+                åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = True
                 Exit Function
             End If
 			
-            // ¶à´Î¼ì²âÄ³±êÊ¶Î´¹û
+            // å¤šæ¬¡æ£€æµ‹æŸæ ‡è¯†æœªæœ
             If checkTagCounter >= 50 Then 
-                TracePrint "¶à´Î¼ì²âÄ³±êÊ¶Î´¹û£º" & strMul_color2
+                TracePrint "å¤šæ¬¡æ£€æµ‹æŸæ ‡è¯†æœªæœï¼š" & strMul_color2
             	
-                Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+                åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
                 Exit Function
             Else 
                 checkTagCounter = checkTagCounter +1
@@ -358,17 +363,17 @@ Function Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶(²ÎÊı)
 			
         End If
         
-        // µã»÷¶à´Î£¬¶¼Î´Æ¥Åäµ½Ä³±êÊ¶
+        // ç‚¹å‡»å¤šæ¬¡ï¼Œéƒ½æœªåŒ¹é…åˆ°æŸæ ‡è¯†
         If tapCounter >= 20 Then 
-            TracePrint "µã»÷¹ıÓÚÆµ·±£º", numExpectTapX,numExpectTapY
+            TracePrint "ç‚¹å‡»è¿‡äºé¢‘ç¹ï¼š", numExpectTapX,numExpectTapY
            
-            Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+            åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
             Exit Function
         End If
         
-        // ÉèÖÃÏÂ´Î¼ì²â¼ä¸ô
+        // è®¾ç½®ä¸‹æ¬¡æ£€æµ‹é—´éš”
         Delay tempDealyTime		
     Loop
 	
-    Æ¥Åäµ½Ö¸¶¨±êÊ¶_µã»÷Ö¸¶¨×ø±ê_Ö±ÖÁÆ¥Åäµ½Ä³±êÊ¶ = False
+    åŒ¹é…åˆ°æŒ‡å®šæ ‡è¯†_ç‚¹å‡»æŒ‡å®šåæ ‡_ç›´è‡³åŒ¹é…åˆ°æŸæ ‡è¯† = False
 End Function
