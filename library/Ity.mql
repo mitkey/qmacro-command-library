@@ -299,14 +299,11 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参�
     Dim numExpectTapX = 参数(1)
     // 期望点击的 y 坐标
     Dim numExpectTapY = 参数(2)
-    // 多点比色某标识 ---> 非 null 才需要匹配
+    // 多点比色某标识
     Dim strMul_color2 = 参数(3)
 
-    // 是否需要检测某标识
-    Dim tempNeedCheckTag = strMul_color2 <> Null
-
     // 延迟
-    Dim tempDealyTime = 200
+    Dim tempDealyTime = 20
     
     // 点击过于频繁计算器
     Dim tapCounter = 0
@@ -314,8 +311,11 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参�
     Dim checkTagCounter = 0
     
     Do
+        // 设置检测间隔
+        Delay tempDealyTime
+        
         // 提前结束
-        If tempNeedCheckTag And 检测是否存在指定标识(strMul_color2) Then 
+        If 检测是否存在指定标识(strMul_color2) Then 
             匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
@@ -327,40 +327,27 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参�
             // 记录点击次数
             tapCounter = tapCounter + 1
 
-            // 需要检测某标识	 
-            If tempNeedCheckTag Then 
-               
-                // 点击后需要重新检测某标识
-                checkTagCounter = 0
-                // 点击后延迟，用于界面响应
-                Delay tempDealyTime
-            Else 
-                // 不需要检测
-                匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
-                Exit Function
-            End If
+            // 点击后需要重新检测某标识
+            checkTagCounter = 0
+            // 点击后延迟，用于界面响应
+            Delay tempDealyTime
             
         End If
 		
-        // 需要检测某标识
-        If tempNeedCheckTag Then 
+        // 匹配某标识
+        If 检测是否存在指定标识(strMul_color2) Then 
+            匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
+            Exit Function
+        End If
 			
-            // 匹配某标识
-            If 检测是否存在指定标识(strMul_color2) Then 
-                匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
-                Exit Function
-            End If
-			
-            // 多次检测某标识未果
-            If checkTagCounter >= 50 Then 
-                TracePrint "多次检测某标识未果：" & strMul_color2
+        // 多次检测某标识未果
+        If checkTagCounter >= 50 Then 
+            TracePrint "多次检测某标识未果：" & strMul_color2
             	
-                匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
-                Exit Function
-            Else 
-                checkTagCounter = checkTagCounter +1
-            End If
-			
+            匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
+            Exit Function
+        Else 
+            checkTagCounter = checkTagCounter +1
         End If
         
         // 点击多次，都未匹配到某标识
@@ -369,10 +356,7 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参�
            
             匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
             Exit Function
-        End If
-        
-        // 设置下次检测间隔
-        Delay tempDealyTime		
+        End If	
     Loop
 	
     匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
