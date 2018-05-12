@@ -126,12 +126,12 @@ Function 检测是否存在标识_比色或找色(参数)
         Dim intX,intY
     	
         FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
-        检测是否存在标识_通用 =  intX > -1 And intY > -1
+        检测是否存在标识_比色或找色 =  intX > -1 And intY > -1
     Else 
         // 多点比色
         Dim strMul_color = 参数(0)
 		
-        检测是否存在标识_通用 =  CmpColorEx(strMul_color,tempSim) = 1
+        检测是否存在标识_比色或找色 =  CmpColorEx(strMul_color,tempSim) = 1
     End If
 
 End Function
@@ -281,7 +281,7 @@ Function 点击指定坐标_直至匹配到某标识(参数)
 	
     Do
 		
-        If 检测是否存在指定标识(strMul_color) Then 
+        If 检测是否存在标识_比色或找色(strMul_color) Then 
             点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
@@ -314,7 +314,7 @@ Function 匹配到指定标识时_点击指定坐标(参数)
     Dim numExpectTapY = 参数(2)
     
     // 匹配指定标识
-    If 检测是否存在指定标识(strMul_color1) Then 
+    If 检测是否存在标识_比色或找色(strMul_color1) Then 
         // 点击
         Tap numExpectTapX, numExpectTapY
 
@@ -349,13 +349,13 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
         Delay tempDealyTime
         
         // 提前结束
-        If 检测是否存在指定标识(strMul_color2) Then 
+        If 检测是否存在标识_比色或找色(strMul_color2) Then 
             匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
     	
         // 匹配指定标识
-        If 检测是否存在指定标识(strMul_color1) Then 
+        If 检测是否存在标识_比色或找色(strMul_color1) Then 
             // 点击
             Tap numExpectTapX, numExpectTapY
             // 记录点击次数
@@ -369,7 +369,7 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
         End If
 		
         // 匹配某标识
-        If 检测是否存在指定标识(strMul_color2) Then 
+        If 检测是否存在标识_比色或找色(strMul_color2) Then 
             匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
