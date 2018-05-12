@@ -108,17 +108,6 @@ End Function
 
 // ================================
 
-Function 检测是否存在指定标识(strMul_color)
-    // 相似度
-    Dim tempSim = 0.9
-
-    If CmpColorEx(strMul_color,tempSim) = 1 Then
-        检测是否存在指定标识 = True
-    Else
-        检测是否存在指定标识 = False
-    End If
-End Function
-
 Function 检测是否存在标识_比色或找色(参数)
     // 相似度
     Dim tempSim = 0.9
