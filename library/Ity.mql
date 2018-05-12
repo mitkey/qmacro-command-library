@@ -129,7 +129,12 @@ Function 检测是否存在标识_比色或找色(参数)
         检测是否存在标识_比色或找色 =  intX > -1 And intY > -1
     Else 
         // 多点比色
-        Dim strMul_color = 参数(0)
+        Dim strMul_color
+        If IsArray(参数) Then 
+            strMul_color = 参数(0)
+        Else 
+            strMul_color = 参数
+        End If
 		
         检测是否存在标识_比色或找色 =  CmpColorEx(strMul_color,tempSim) = 1
     End If
