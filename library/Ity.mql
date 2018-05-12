@@ -91,6 +91,23 @@ End Function
 
 // ================================
 
+Function 点击某位置(参数)
+    Dim intX = 参数(0)
+    Dim intY = 参数(1)
+    Tap intX,intY
+	
+    点击某位置 = True
+End Function
+
+Function 截屏图像到内存
+    ReleaseCapture 
+    Delay 10
+    KeepCapture 
+End Function
+
+
+// ================================
+
 Function 检测是否存在指定标识(strMul_color)
     // 相似度
     Dim tempSim = 0.9
@@ -100,6 +117,34 @@ Function 检测是否存在指定标识(strMul_color)
     Else
         检测是否存在指定标识 = False
     End If
+End Function
+
+Function 检测是否存在标识_比色或找色(参数)
+    // 相似度
+    Dim tempSim = 0.9
+    // 查找方向
+    Dim tempDir = 0
+	
+    If IsNumeric(参数(0)) Then 
+        // 多点找色
+        Dim numX1 = 参数(0)
+        Dim numY1= 参数(1)
+        Dim numX2 = 参数(2)
+        Dim numY2 = 参数(3)
+        Dim strFirst_color = 参数(4)
+        Dim strOffset_color = 参数(5)
+    	
+        Dim intX,intY
+    	
+        FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
+        检测是否存在标识_通用 =  intX > -1 And intY > -1
+    Else 
+        // 多点比色
+        Dim strMul_color = 参数(0)
+		
+        检测是否存在标识_通用 =  CmpColorEx(strMul_color,tempSim) = 1
+    End If
+
 End Function
 
 Function 点击指定标识_直至匹配不到某标识(参数)
