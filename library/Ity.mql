@@ -138,10 +138,12 @@ Function 检测是否存在标识_比色或找色(参数)
 		
         检测是否存在标识_比色或找色 =  CmpColorEx(strMul_color,tempSim) = 1
     End If
-
 End Function
 
 Function 点击指定标识_直至匹配不到某标识(参数)
+
+    点击指定标识_直至匹配不到某标识 = False
+
     Dim numX1 = 参数(0)
     Dim numY1= 参数(1)
     Dim numX2 = 参数(2)
@@ -183,16 +185,15 @@ Function 点击指定标识_直至匹配不到某标识(参数)
         // 点击多次，都能匹配到某标识
         If tapCounter >= 20 Then 
             TracePrint "点击过于频繁：", intX,intY
-           
-            点击指定标识_直至匹配不到某标识 = False
             Exit Function
         End If
     Loop
-
-    点击指定标识_直至匹配不到某标识 = False
 End Function
 
 Function 点击指定标识_直至匹配到某标识(参数)
+
+    点击指定标识_直至匹配到某标识 = False
+
     Dim numX1 = 参数(0)
     Dim numY1= 参数(1)
     Dim numX2 = 参数(2)
@@ -234,16 +235,14 @@ Function 点击指定标识_直至匹配到某标识(参数)
         // 点击多次，都未匹配到某标识
         If tapCounter >= 20 Then 
             TracePrint "点击过于频繁：", intX,intY
-           
-            点击指定标识_直至匹配到某标识 = False
             Exit Function
         End If
     Loop
-
-    点击指定标识_直至匹配到某标识 = False
 End Function
 
 Function 点击指定标识(参数)
+    点击指定标识 = False
+
     Dim numX1 = 参数(0)
     Dim numY1= 参数(1)
     Dim numX2 = 参数(2)
@@ -268,12 +267,12 @@ Function 点击指定标识(参数)
 			
         点击指定标识 = True
         Exit Function
-    Else 
-        点击指定标识 = False
     End If
 End Function
 
 Function 点击指定坐标_直至匹配到某标识(参数)
+    点击指定坐标_直至匹配到某标识 = False
+
     Dim numTapX = 参数(0)
     Dim numTapY = 参数(1)
     Dim strMul_color = 参数(3)
@@ -299,18 +298,15 @@ Function 点击指定坐标_直至匹配到某标识(参数)
         // 点击多次，都能不能匹配到某标识
         If tapCounter >= 20 Then 
             TracePrint "点击过于频繁：", numTapX,numTapY
-			   
-            点击指定坐标_直至匹配到某标识 = False
+	
             Exit Function
         End If
-		
     Loop
-	
-    点击指定坐标_直至匹配到某标识 = False
-	
 End Function
 
 Function 匹配到指定标识时_点击指定坐标(参数)
+    匹配到指定标识时_点击指定坐标 = False
+	
     // 多点比色指定标识
     Dim strMul_color1 = 参数(0)
     // 期望点击的 x 坐标
@@ -326,12 +322,11 @@ Function 匹配到指定标识时_点击指定坐标(参数)
         匹配到指定标识时_点击指定坐标 = True
         Exit Function
     End If
-    
-    匹配到指定标识时_点击指定坐标 = False
-    
 End Function
 
-Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
+Function 匹配到指定标识时_点击指定坐标_直至匹配到某标识(参数)
+    匹配到指定标识时_点击指定坐标_直至匹配到某标识 = False
+
     // 多点比色指定标识
     Dim strMul_color1 = 参数(0)
     // 期望点击的 x 坐标
@@ -355,7 +350,7 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
         
         // 提前结束
         If 检测是否存在标识_比色或找色(strMul_color2) Then 
-            匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
+            匹配到指定标识时_点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
     	
@@ -369,21 +364,20 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
             // 点击后需要重新检测某标识
             checkTagCounter = 0
             // 点击后延迟，用于界面响应
-            Delay tempDealyTime
-            
+            Delay tempDealyTime 
+        Else 
+            Exit Function
         End If
 		
         // 匹配某标识
         If 检测是否存在标识_比色或找色(strMul_color2) Then 
-            匹配到指定标识_点击指定坐标_直至匹配到某标识 = True
+            匹配到指定标识时_点击指定坐标_直至匹配到某标识 = True
             Exit Function
         End If
 			
         // 多次检测某标识未果
         If checkTagCounter >= 50 Then 
             TracePrint "多次检测某标识未果：" & strMul_color2
-            	
-            匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
             Exit Function
         Else 
             checkTagCounter = checkTagCounter +1
@@ -392,11 +386,7 @@ Function 匹配到指定标识_点击指定坐标_直至匹配到某标识(参数)
         // 点击多次，都未匹配到某标识
         If tapCounter >= 20 Then 
             TracePrint "点击过于频繁：", numExpectTapX,numExpectTapY
-           
-            匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
             Exit Function
         End If	
     Loop
-	
-    匹配到指定标识_点击指定坐标_直至匹配到某标识 = False
 End Function
