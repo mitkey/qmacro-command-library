@@ -366,7 +366,9 @@ Function 匹配到指定标识时_点击指定坐标_直至匹配到某标识(参数)
             // 点击后延迟，用于界面响应
             Delay tempDealyTime 
         Else 
-            Exit Function
+            If tapCounter = 0 Then 
+                Exit Function
+            End If	
         End If
 		
         // 匹配某标识
@@ -424,8 +426,12 @@ Function 匹配到指定标识时_点击它_直至匹配到某标识(参数)
 
             // 点击后需要重新检测某标识
             checkTagCounter = 0
+            // 点击后延迟，用于界面响应
+            Delay tempDealyTime 
         Else 
-            Exit Function
+            If tapCounter = 0 Then 
+                Exit Function
+            End If	       
         End If
 		
         // 匹配某标识
