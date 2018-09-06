@@ -390,3 +390,62 @@ Function 匹配到指定标识时_点击指定坐标_直至匹配到某标识(参数)
         End If	
     Loop
 End Function
+
+Function 匹配到指定标识时_点击它_直至匹配到某标识(参数)
+    匹配到指定标识时_点击它_直至匹配到某标识 = False
+
+    // 多点找色指定标识
+    Dim strMul_color1 = 参数(0)
+    // 多点比色某标识
+    Dim strMul_color2 = 参数(1)
+
+    // 延迟
+    Dim tempDealyTime = 20
+    
+    // 点击过于频繁计算器
+    Dim tapCounter = 0
+    // 检测某标识计算器
+    Dim checkTagCounter = 0
+    
+    Do
+        // 设置检测间隔
+        Delay tempDealyTime
+        
+        // 提前结束
+        If 检测是否存在标识_比色或找色(strMul_color2) Then 
+            匹配到指定标识时_点击它_直至匹配到某标识 = True
+            Exit Function
+        End If
+    	
+        // 点击指定标识
+        If 点击指定标识(strMul_color1) Then 
+            // 记录点击次数
+            tapCounter = tapCounter + 1
+
+            // 点击后需要重新检测某标识
+            checkTagCounter = 0
+        Else 
+            Exit Function
+        End If
+		
+        // 匹配某标识
+        If 检测是否存在标识_比色或找色(strMul_color2) Then 
+            匹配到指定标识时_点击它_直至匹配到某标识 = True
+            Exit Function
+        End If
+			
+        // 多次检测某标识未果
+        If checkTagCounter >= 50 Then 
+            TracePrint "多次检测某标识未果：" & strMul_color2
+            Exit Function
+        Else 
+            checkTagCounter = checkTagCounter +1
+        End If
+        
+        // 点击多次，都未匹配到某标识
+        If tapCounter >= 20 Then 
+            TracePrint "点击过于频繁：" & strMul_color1
+            Exit Function
+        End If	
+    Loop
+End Function
