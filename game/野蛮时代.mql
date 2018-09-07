@@ -1,0 +1,308 @@
+Import "ShanHai.lua"
+Import "Ity.mql"
+
+Log.Open 
+SetScreenScale 720, 1280
+
+// =================
+Dim screenX = GetScreenX()
+Dim screenY = GetScreenY()
+Dim commonDelayTime = 1000
+
+// =================
+
+
+// =================
+Dim 常量_标识_在大本营界面 = "64|1221|385FA2-101010,60|1223|F08F0A-101010,70|1222|8C6008-101010,66|1240|2C915E-101010,52|1231|9EBCCB-101010,69|1246|113A25-101010,78|1251|261E18-101010"
+Dim 常量_标识_在大地图界面 = "55|1214|78EAFF-101010,55|1221|7B8D9D-101010,44|1241|C6E5EC-101010,83|1241|1E6442-101010,97|1228|C6E5EC-101010,81|1201|261E18-101010,78|1217|515F6C-101010,51|1202|0094FF-101010"
+Dim 常量_查找_大地图按钮 = Array(4,1150,720,1280,"385FA2-101010","-4|2|F08F0A-101010,6|1|8C6008-101010,2|19|2C915E-101010,-12|10|9EBCCB-101010,5|25|113A25-101010,14|30|261E18-101010")
+Dim 常量_查找_大本营按钮 = Array(8,1127,710,1275,"0E0B10-101010","89|65|060307-101010,20|66|513A30-101010,24|56|C7E5EC-101010,37|40|7B8D9D-101010,33|27|7BECFF-101010,54|18|050303-101010,31|-2|7F6B66-101010,77|34|C7E5EC-101010")
+
+
+Dim 常量_查找_联盟宝藏弹框界面的获取按钮 = Array(242,608,475,684,"12A734-101010","0|3|083600-101010,0|16|083801-101010,15|18|093801-101010,-14|11|093D03-101010,-33|28|0B4507-101010")
+Dim 常量_标识_联盟宝藏弹框界面 = "368|325|FFFFFF-101010,368|335|3E2B23-101010,368|337|FFFFFF-101010,368|342|FFFFFF-101010,368|354|FBFBFB-101010,368|359|38241C-101010,343|343|E3E0DF-101010"
+Dim 常量_查找_联盟频道中获取按钮 = Array(478,220,676,1174,"0C3E04-101010","2|0|40B440-101010,-3|0|3DA539-101010,-1|-4|108725-101010,-1|7|28B03B-101010,0|-15|083600-101010,2|-3|164E0D-101010,-3|-3|19530F-101010,-3|4|0B4206-101010")
+Dim 常量_查找_联盟频道中获取联盟宝箱横条 = Array(25,220,691,283,"6FC7F4-101010","5|2|364AC3-101010,13|3|6FC7F4-101010,25|3|0C9320-101010,13|-9|394ED0-101010")
+Dim 常量_标识_未在联盟频道 = "576|154|D1A166-101010,579|154|5F3F2F-101010,583|154|BE905D-101010,586|154|5F3F2F-101010,588|154|D1A166-101010,592|154|5F3F2F-101010,595|155|D1A166-101010,563|162|5F3F2F-101010"
+Dim 常量_标识_已使用阿加莎助手 = "159|411|463F40-101010,102|538|849DAD-101010,53|362|FFFFFF-101010,158|428|B9DBEC-101010,143|376|4CBFE0-101010"
+Dim 常量_标识_在聊天界面 = "630|22|CE914B-101010,649|40|CB8B41-101010,649|41|DCB280-101010,649|42|FFFFFF-101010,649|63|A35114-101010"
+Dim 常量_标识_能打开聊天界面 = "153|1222|6E6440-101010,153|1230|443631-101010,160|1248|64B6B9-101010,142|1201|755A4E-101010,161|1255|2F2B2C-101010"
+Dim 常量_查找_返回按钮 =  Array(0,0,0,0,"4E52F8-101010","-5|-6|1A1C81-101010,-3|4|1A1C81-101010,30|12|4D51FC-101010,36|12|1A1C81-101010,29|18|1A1C81-101010")
+Dim 常量_查找_关闭按钮 =  Array(0,0,0,0,"2828FF-101010","-12|-1|1A1C80-101010,12|-1|1A1C81-101010,0|-14|1A1C81-101010,-1|10|1A1C81-101010,-1|5|2828FF-101010")
+
+Dim 常量_查找_已被发现的宝箱 = Array(0,0,0,0,"454556-101010","-2|-25|89899A-101010,-1|-39|080809-101010,-20|-64|7B7B8C-101010,13|-69|526388-101010,0|-88|C8C8E0-101010,-1|-48|384159-101010,38|-100|52628B-101010,-28|-8|0A121A-101010")
+Dim 常量_查找_未被发现的宝箱 = Array(0,0,0,0,"D9E1F8-101010","2|10|FFFFFF-101010,6|1|1E5266-101010,10|19|34506A-101010,-27|26|B3BCD2-101010,5|1|363D49-101010,-86|21|684679-101010,-36|8|53365B-101010")
+// =================
+
+Function 功能_若在大地图中进行挖宝
+    If 辅助_检测是否为大地图界面() Then 
+        TracePrint "大地图界面，宝箱处理"
+            
+        Call 辅助_在大地图界面点击所有未被发现的宝箱()
+        Delay commonDelayTime
+                       
+        Call 辅助_在大地图界面点击所有已被发现的宝箱()
+        Delay commonDelayTime
+    End If
+End Function
+
+Function 功能_宝箱
+    Do
+ 
+        Call 功能_若在大地图中进行挖宝()
+            
+        If 辅助_打开聊天界面() Then 
+            TracePrint "打开聊天界面"
+            Delay commonDelayTime
+        End If
+        
+        If 辅助_聊天切换到联盟频道() Then 
+            TracePrint "切换到联盟频道"
+            Delay commonDelayTime
+        End If
+     
+        If 辅助_联盟频道中点击获取按钮() Then 
+            TracePrint "联盟频道中，点击获取按钮"          
+            
+            If 辅助_宝藏界面点击获取按钮() Then 
+                TracePrint "点击了宝箱界面中的获取"
+                Delay commonDelayTime
+            End If
+        Else 
+            TracePrint "联盟频道中，没有获取按钮" 
+        
+            If 辅助_联盟频道中点击获取联盟宝箱横条() Then 
+                TracePrint "联盟频道中，点击获取联盟宝箱横幅"
+                Delay commonDelayTime
+            Else 
+                TracePrint "联盟宝箱领取完，结束宝箱"
+                ShowMessage "联盟宝箱领取完，结束宝箱" 
+                Delay commonDelayTime
+      
+                Exit Do
+            End If
+        End If      
+    Loop    
+End Function
+
+Function 辅助_在大地图界面点击所有未被发现的宝箱
+
+    Do
+        If Ity.点击指定标识(常量_查找_未被发现的宝箱) Then 
+            TracePrint "主界面，发现宝箱" 
+            Delay commonDelayTime
+        Else 
+            Exit Function
+        End If
+    Loop
+    
+End Function
+
+Function 辅助_在大地图界面点击所有已被发现的宝箱
+    
+    Do
+        If Ity.点击指定标识(常量_查找_已被发现的宝箱) Then 
+            TracePrint "主界面，点击宝箱" 
+            Delay commonDelayTime
+            
+            If 辅助_宝藏界面点击获取按钮() Then 
+                TracePrint "点击了宝箱界面中的获取"
+                Delay commonDelayTime
+            Else 
+                TracePrint "主界面，点击宝箱后。未找到获取按钮" 
+                Exit Function
+            End If 
+        Else 
+            Exit Function
+        End If
+    Loop
+    
+End Function
+
+
+
+Function 辅助_点击进入大本营界面
+    辅助_点击进入大本营界面 = Ity.点击指定标识(常量_查找_大本营按钮)
+End Function
+
+Function 辅助_检测是否为大地图界面
+    辅助_检测是否为大地图界面 = Ity.检测是否存在标识_比色或找色(常量_标识_在大地图界面)
+End Function
+
+Function 辅助_检测是否为大本营界面
+    辅助_检测是否为大本营界面 = Ity.检测是否存在标识_比色或找色(常量_标识_在大本营界面)
+End Function
+
+Function 辅助_打开大本营界面
+    // 检测多次失败处理
+    Dim counter = 0
+
+    Do
+        If 辅助_检测是否为大本营界面() Then 
+            Exit Function
+        Else    
+            If 辅助_点击返回标识() Then 
+                Delay 1000
+            End If
+        
+            If 辅助_点击关闭标识() Then 
+                Delay 1000
+            End If
+            
+            If 辅助_关闭阿加莎助手() Then 
+                Delay 1000
+            End If
+        
+            If 辅助_点击进入大本营界面() Then 
+                Delay 1000
+            End If
+        End If  
+    
+        If counter > 20 Then 
+            TracePrint "无法打开大本营界面"
+            Exit Function
+        Else 
+            counter = counter +1
+        End If
+    Loop
+        
+End Function
+
+Function 辅助_大本营双指缩放到最小
+    
+    Dim x1 = screenX * (1/5)
+    Dim y1 = screenY * (4/5)
+    
+    Dim x2 = screenX * (4/5)
+    Dim y2 = screenY * (1/5)
+
+    TouchDown x1, y1, 1
+    TouchDown x2, y2, 2
+    TouchMove x2, y2, 1, 100
+    TouchMove x1, y1, 2, 100
+    TouchUp 1
+    TouchUp 2
+    
+End Function
+
+
+Function 辅助_宝藏界面点击获取按钮
+    Dim data = Ity.arrayAppend(常量_查找_联盟宝藏弹框界面的获取按钮,常量_标识_联盟宝藏弹框界面)
+    辅助_宝藏界面点击获取按钮 = Ity.点击指定标识_直至匹配不到某标识(data)
+End Function
+
+Function 辅助_联盟频道中点击获取按钮
+    Dim data = Array() 
+    data(0) = 常量_查找_联盟频道中获取按钮
+    data(1) = 常量_标识_联盟宝藏弹框界面
+    辅助_联盟频道中点击获取按钮 = Ity.匹配到指定标识时_点击它_直至匹配到某标识(data)
+End Function
+
+
+Function 辅助_联盟频道中点击获取联盟宝箱横条
+    辅助_联盟频道中点击获取联盟宝箱横条 = Ity.点击指定标识(常量_查找_联盟频道中获取联盟宝箱横条)
+End Function
+
+
+
+Function 辅助_聊天切换到联盟频道
+    Dim data = Array() 
+    data(0) = 常量_标识_未在联盟频道
+    data(1) = 555
+    data(2) = 151
+    辅助_聊天切换到联盟频道 = Ity.匹配到指定标识时_点击指定坐标(data)
+End Function
+
+Function 辅助_打开聊天界面
+    // 检测多次失败处理
+    Dim counter = 0
+
+    Do
+        Delay 1000
+        If 辅助_检测是否为聊天界面() Then 
+            Exit Function
+        Else    
+            If 辅助_点击返回标识() Then 
+                Delay 1000
+            End If
+        
+            If 辅助_点击关闭标识() Then 
+                Delay 1000
+            End If
+            
+            If 辅助_关闭阿加莎助手() Then 
+                Delay 1000
+            End If
+        
+            If 辅助_点击进入聊天界面() Then 
+                Delay 1000
+            End If
+        End If  
+    
+        If counter > 20 Then 
+            TracePrint  "无法打开聊天界面"
+            Exit Function
+        Else 
+            counter = counter +1
+        End If
+    Loop
+        
+End Function
+
+Function 辅助_点击进入聊天界面
+    Dim data = Array() 
+    data(0) = 常量_标识_能打开聊天界面
+    data(1) = 356
+    data(2) = 1218
+    data(3) = 常量_标识_在聊天界面
+    辅助_点击进入聊天界面=   Ity.匹配到指定标识时_点击指定坐标_直至匹配到某标识(data)
+End Function
+
+Function 辅助_检测是否能打开聊天频道
+    辅助_检测是否能打开聊天频道 = Ity.检测是否存在标识_比色或找色(常量_标识_能打开聊天界面)
+End Function
+
+Function 辅助_检测是否为聊天界面
+    辅助_检测是否为聊天界面 = Ity.检测是否存在标识_比色或找色(常量_标识_在聊天界面)
+End Function
+
+Function 辅助_关闭阿加莎助手
+    Dim data = Array() 
+    data(0) = 常量_标识_已使用阿加莎助手
+    data(1) = 412
+    data(2) = 468
+    // 在大地图
+    辅助_关闭阿加莎助手 = Ity.匹配到指定标识时_点击指定坐标(data)
+End Function
+
+Function 辅助_点击返回标识
+    // 返回按钮：个人信息面板、邮件面板
+    辅助_点击返回标识 = Ity.点击指定标识(常量_查找_返回按钮)
+End Function
+
+Function 辅助_点击关闭标识
+    // 关闭按钮：聊天频道面板、背包面板
+    辅助_点击关闭标识 = Ity.点击指定标识(常量_查找_关闭按钮)
+End Function
+
+
+// ==============================
+Function 功能模块()
+    Dim temp = Ity.ui_rBoolean("仅处理大地图",false)
+
+    Do
+        If temp Then 
+            Call 功能_若在大地图中进行挖宝()
+        Else
+            Call 功能_宝箱()
+        End If
+        
+        Delay 500
+    Loop  
+End Function
+
+Function main()
+    Call 功能模块()
+End Function
+
+Call main()
