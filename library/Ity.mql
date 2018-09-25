@@ -165,6 +165,8 @@ Function 点击指定标识_直至匹配不到某标识(参数)
     Dim intX,intY
 	
     Do
+        Call 截屏图像到内存()
+    	  
         FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
         If intX > -1 And intY > -1 Then 
             // 点击
@@ -215,6 +217,8 @@ Function 点击指定标识_直至匹配到某标识(参数)
     Dim intX,intY
 	
     Do
+        Call 截屏图像到内存()
+        
         FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
         If intX > -1 And intY > -1 Then 
             // 点击
@@ -256,6 +260,8 @@ Function 点击指定标识(参数)
     Dim tempSim = 0.9
     // 延迟
     Dim tempDealyTime = 200
+
+    Call 截屏图像到内存()
 		  
     Dim intX,intY
     FindMultiColor numX1, numY1, numX2, numY2, strFirst_color, strOffset_color, tempDir, tempSim, intX, intY
@@ -284,7 +290,8 @@ Function 点击指定坐标_直至匹配到某标识(参数)
     Dim tapCounter = 0
 	
     Do
-		
+        Call 截屏图像到内存()
+        
         If 检测是否存在标识_比色或找色(strMul_color) Then 
             点击指定坐标_直至匹配到某标识 = True
             Exit Function
@@ -313,6 +320,8 @@ Function 匹配到指定标识时_点击指定坐标(参数)
     Dim numExpectTapX = 参数(1)
     // 期望点击的 y 坐标
     Dim numExpectTapY = 参数(2)
+    
+    Call 截屏图像到内存()
     
     // 匹配指定标识
     If 检测是否存在标识_比色或找色(strMul_color1) Then 
@@ -345,6 +354,8 @@ Function 匹配到指定标识时_点击指定坐标_直至匹配到某标识(参数)
     Dim checkTagCounter = 0
     
     Do
+        Call 截屏图像到内存()
+        
         // 设置检测间隔
         Delay tempDealyTime
         
@@ -410,6 +421,8 @@ Function 匹配到指定标识时_点击它_直至匹配到某标识(参数)
     Dim checkTagCounter = 0
     
     Do
+        Call 截屏图像到内存()
+        
         // 设置检测间隔
         Delay tempDealyTime
         
