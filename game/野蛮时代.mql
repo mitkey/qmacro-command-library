@@ -1,13 +1,13 @@
 Import "ShanHai.lua"
 Import "Ity.mql"
 
-Log.Open 
+Log.Close 
 SetScreenScale 720, 1280
 
 // =================
 Dim screenX = GetScreenX()
 Dim screenY = GetScreenY()
-Dim commonDelayTime = 1000
+Dim commonDelayTime = 300
 
 // =================
 
@@ -49,7 +49,7 @@ End Function
 Function 功能_宝箱
     Do
  
-        Call 功能_若在大地图中进行挖宝()
+        // Call 功能_若在大地图中进行挖宝()
             
         If 辅助_打开聊天界面() Then 
             TracePrint "打开聊天界面"
@@ -288,16 +288,20 @@ End Function
 
 // ==============================
 Function 功能模块()
-    Dim temp = Ity.ui_rBoolean("仅处理大地图",false)
+    Dim space = Ity.ui_rInt("间隔毫秒",1000);
+
+    If space <= 0 Then 
+        ShowMessage "间隔不合法，使用默认值1000"
+        Delay 2000
+        
+        space = 1000
+    End If
 
     Do
-        If temp Then 
-            Call 功能_若在大地图中进行挖宝()
-        Else
-            Call 功能_宝箱()
-        End If
-        
-        Delay 500
+     
+        Call 功能_宝箱()
+
+        Delay space
     Loop  
 End Function
 
