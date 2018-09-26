@@ -9,6 +9,9 @@ Dim screenX = GetScreenX()
 Dim screenY = GetScreenY()
 Dim commonDelayTime = 300
 
+Dim 游戏包名 = "com.tap4fun.brutalage_test"
+Dim 脚本包名 = "com.ingenuity.game.anjian.script.ymsd"
+
 // =================
 
 
@@ -34,6 +37,14 @@ Dim 常量_查找_已被发现的宝箱 = Array(0,0,0,0,"454556-101010","-2|-25|
 Dim 常量_查找_未被发现的宝箱 = Array(0,0,0,0,"D9E1F8-101010","2|10|FFFFFF-101010,6|1|1E5266-101010,10|19|34506A-101010,-27|26|B3BCD2-101010,5|1|363D49-101010,-86|21|684679-101010,-36|8|53365B-101010")
 // =================
 
+Function 系统_清理后台	
+    Dim data = Array()
+    data(0) = 游戏包名
+    data(1) = 脚本包名
+    ShanHai.KillClean (data)
+    Delay 2000
+End Function
+
 Function 功能_若在大地图中进行挖宝
     If 辅助_检测是否为大地图界面() Then 
         TracePrint "大地图界面，宝箱处理"
@@ -49,7 +60,7 @@ End Function
 Function 功能_宝箱
     Do
  
-        // Call 功能_若在大地图中进行挖宝()
+        Call 功能_若在大地图中进行挖宝()
             
         If 辅助_打开聊天界面() Then 
             TracePrint "打开聊天界面"
@@ -136,25 +147,27 @@ End Function
 Function 辅助_打开大本营界面
     // 检测多次失败处理
     Dim counter = 0
+	
+    Dim tempDealyTime = 300
 
     Do
         If 辅助_检测是否为大本营界面() Then 
             Exit Function
         Else    
             If 辅助_点击返回标识() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
         
             If 辅助_点击关闭标识() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
             
             If 辅助_关闭阿加莎助手() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
         
             If 辅助_点击进入大本营界面() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
         End If  
     
@@ -204,7 +217,6 @@ Function 辅助_联盟频道中点击获取联盟宝箱横条
 End Function
 
 
-
 Function 辅助_聊天切换到联盟频道
     Dim data = Array() 
     data(0) = 常量_标识_未在联盟频道
@@ -216,26 +228,28 @@ End Function
 Function 辅助_打开聊天界面
     // 检测多次失败处理
     Dim counter = 0
+	
+    Dim tempDealyTime = 300
 
     Do
-        Delay 1000
+        Delay tempDealyTime
         If 辅助_检测是否为聊天界面() Then 
             Exit Function
         Else    
             If 辅助_点击返回标识() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
         
             If 辅助_点击关闭标识() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
             
             If 辅助_关闭阿加莎助手() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
         
             If 辅助_点击进入聊天界面() Then 
-                Delay 1000
+                Delay tempDealyTime
             End If
         End If  
     
@@ -296,8 +310,27 @@ Function 功能模块()
         
         space = 1000
     End If
+    
+    // 时间标记：定时清理内存
+    Call ShanHai.TimeSign(1)
+    // 时间标记：定时检查启动游戏--->解决闪退问题
+    Call ShanHai.TimeSign(2)
 
     Do
+        // 60 分钟，单位秒
+        If ShanHai.Timer(1, 60 * 60) Then 
+            TracePrint "清理后台内存"
+            ShowMessage "清理内存"
+            Call 系统_清理后台()
+            Delay space
+        End If
+    	
+        // 5 分钟，单位秒
+        If ShanHai.Timer(2, 5 * 60) Then 
+            TracePrint "检测是否有必要启动游戏"
+            Call 系统_启动游戏()
+            Delay space
+        End If
      
         Call 功能_宝箱()
 
@@ -305,8 +338,24 @@ Function 功能模块()
     Loop  
 End Function
 
+Function 系统_启动游戏
+	
+	
+    If Sys.IsRunning(游戏包名) Then 
+        // 在运行
+    Else 
+        // 不在运行
+        RunApp 游戏包名
+		
+        ShowMessage "启动游戏"
+        Delay 20*1000
+    End If
+	
+End Function
+
 Function main()
     Call 功能模块()
 End Function
+
 
 Call main()
