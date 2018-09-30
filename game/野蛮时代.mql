@@ -313,33 +313,26 @@ Function 功能模块()
     
     // 时间标记：定时清理内存
     Call ShanHai.TimeSign(1)
-    // 时间标记：定时检查启动游戏--->解决闪退问题
-    Call ShanHai.TimeSign(2)
 
     Do
-        // 60 分钟，单位秒
-        If ShanHai.Timer(1, 60 * 60) Then 
+        // 5 分钟，单位秒
+        If ShanHai.Timer(1, 5 * 60) Then 
             TracePrint "清理后台内存"
             ShowMessage "清理内存"
             Call 系统_清理后台()
             Delay space
         End If
     	
-        // 5 分钟，单位秒
-        If ShanHai.Timer(2, 5 * 60) Then 
-            TracePrint "检测是否有必要启动游戏"
-            Call 系统_启动游戏()
-            Delay space
-        End If
+        Call 系统_启动游戏()
+        Delay space
+        
      
         Call 功能_宝箱()
-
         Delay space
     Loop  
 End Function
 
 Function 系统_启动游戏
-	
 	
     If Sys.IsRunning(游戏包名) Then 
         // 在运行
