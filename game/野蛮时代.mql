@@ -37,6 +37,22 @@ Dim 常量_查找_已被发现的宝箱 = Array(0,0,0,0,"454556-101010","-2|-25|
 Dim 常量_查找_未被发现的宝箱 = Array(0,0,0,0,"D9E1F8-101010","2|10|FFFFFF-101010,6|1|1E5266-101010,10|19|34506A-101010,-27|26|B3BCD2-101010,5|1|363D49-101010,-86|21|684679-101010,-36|8|53365B-101010")
 // =================
 
+// 未拾取宝箱的回合
+Dim tmpNoPickupRing = 0
+
+Function 辅助_统计_拾取了宝箱
+    tmpNoPickupRing = 0
+End Function
+
+Function 辅助_统计_本轮未拾取宝箱
+    tmpNoPickupRing = tmpNoPickupRing + 1
+End Function
+
+Function 辅助_统计_太久未拾取宝箱
+    // 默认超过 100 轮未拾取，就算很久
+    辅助_统计_太久未拾取宝箱 = tmpNoPickupRing > 100
+End Function
+
 Function 系统_清理后台	
     Dim data = Array()
     data(0) = 游戏包名
@@ -78,6 +94,8 @@ Function 功能_宝箱
             If 辅助_宝藏界面点击获取按钮() Then 
                 TracePrint "点击了宝箱界面中的获取"
                 Delay commonDelayTime
+                
+                Call 辅助_统计_拾取了宝箱()
             End If
         Else 
             TracePrint "联盟频道中，没有获取按钮" 
@@ -89,6 +107,8 @@ Function 功能_宝箱
                 TracePrint "联盟宝箱领取完，结束宝箱"
                 ShowMessage "联盟宝箱领取完，结束宝箱" 
                 Delay commonDelayTime
+                
+                Call 辅助_统计_本轮未拾取宝箱()
       
                 Exit Do
             End If
@@ -302,7 +322,8 @@ End Function
 
 // ==============================
 Function 功能模块()
-    Dim space = Ity.ui_rInt("间隔毫秒",1000);
+    Dim space = Ity.ui_rInt("间隔毫秒",1000)
+    Dim enableRestart = Ity.ui_rBoolean("长时间未拾取，重新启动",false)
 
     If space <= 0 Then 
         ShowMessage "间隔不合法，使用默认值1000"
@@ -329,6 +350,10 @@ Function 功能模块()
      
         Call 功能_宝箱()
         Delay space
+    
+        If enableRestart And 辅助_统计_太久未拾取宝箱() Then 
+            KillApp 游戏包名
+        End If
     Loop  
 End Function
 
