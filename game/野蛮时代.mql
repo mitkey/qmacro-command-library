@@ -336,23 +336,25 @@ Function 功能模块()
     Call ShanHai.TimeSign(1)
 
     Do
+        Delay space
+    	 
         // 5 分钟，单位秒
         If ShanHai.Timer(1, 5 * 60) Then 
             TracePrint "清理后台内存"
             ShowMessage "清理内存"
             Call 系统_清理后台()
-            Delay space
+            Delay 2000
         End If
     	
         Call 系统_启动游戏()
-        Delay space
-        
-     
         Call 功能_宝箱()
-        Delay space
+       
     
         If enableRestart And 辅助_统计_太久未拾取宝箱() Then 
             KillApp 游戏包名
+            TracePrint "太久未拾取宝箱，疑似卡死。关闭游戏"
+            ShowMessage "太久未拾取宝箱，疑似卡死。关闭游戏"
+            Delay 2000
         End If
     Loop  
 End Function
