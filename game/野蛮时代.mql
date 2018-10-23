@@ -351,6 +351,8 @@ Function 功能模块()
        
     
         If enableRestart And 辅助_统计_太久未拾取宝箱() Then 
+        	Call 辅助_统计_拾取了宝箱()
+            
             KillApp 游戏包名
             TracePrint "太久未拾取宝箱，疑似卡死。关闭游戏"
             ShowMessage "太久未拾取宝箱，疑似卡死。关闭游戏"
