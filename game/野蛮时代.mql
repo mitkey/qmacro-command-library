@@ -33,6 +33,8 @@ Dim 常量_标识_能打开聊天界面 = "153|1222|6E6440-101010,153|1230|44363
 Dim 常量_查找_返回按钮 =  Array(0,0,0,0,"4E52F8-101010","-5|-6|1A1C81-101010,-3|4|1A1C81-101010,30|12|4D51FC-101010,36|12|1A1C81-101010,29|18|1A1C81-101010")
 Dim 常量_查找_关闭按钮 =  Array(0,0,0,0,"2828FF-101010","-12|-1|1A1C80-101010,12|-1|1A1C81-101010,0|-14|1A1C81-101010,-1|10|1A1C81-101010,-1|5|2828FF-101010")
 
+Dim 常量_查找_确定按钮_宝箱已消失弹框 = Array(29,293,679,718,"083600-101010","27|28|083600-101010,16|18|11962C-101010,51|-1|083700-101010,47|18|12A734-101010,54|22|14A835-101010,127|-114|523930-101010,130|-113|E3DFDE-101010,-252|-293|2828FF-101010,-240|-268|1F1612-101010")
+
 Dim 常量_查找_已被发现的宝箱 = Array(0,0,0,0,"454556-101010","-2|-25|89899A-101010,-1|-39|080809-101010,-20|-64|7B7B8C-101010,13|-69|526388-101010,0|-88|C8C8E0-101010,-1|-48|384159-101010,38|-100|52628B-101010,-28|-8|0A121A-101010")
 Dim 常量_查找_未被发现的宝箱 = Array(0,0,0,0,"D9E1F8-101010","2|10|FFFFFF-101010,6|1|1E5266-101010,10|19|34506A-101010,-27|26|B3BCD2-101010,5|1|363D49-101010,-86|21|684679-101010,-36|8|53365B-101010")
 // =================
@@ -58,15 +60,16 @@ Function 系统_清理后台
     data(0) = 游戏包名
     data(1) = 脚本包名
     ShanHai.KillClean (data)
-    Delay 2000
+    Delay 5000
 End Function
 
 Function 功能_若在大地图中进行挖宝
     If 辅助_检测是否为大地图界面() Then 
         TracePrint "大地图界面，宝箱处理"
-            
-        Call 辅助_在大地图界面点击所有未被发现的宝箱()
-        Delay commonDelayTime
+        
+        // 已废弃 ---> 本身就很难触发  ---> 猜测会触发bug：图腾被攻击，红屏预警时误点击，弹出输入坐标框   
+        // Call 辅助_在大地图界面点击所有未被发现的宝箱()
+        // Delay commonDelayTime
                        
         Call 辅助_在大地图界面点击所有已被发现的宝箱()
         Delay commonDelayTime
@@ -112,7 +115,13 @@ Function 功能_宝箱
       
                 Exit Do
             End If
-        End If      
+        End If
+        
+            // 调用关闭按钮
+            If 全局_用户设置_开关_快速关闭宝箱已消失弹框 And 辅助_点击确定标识_宝箱已消失弹框() Then 
+            	TracePrint "快速关闭，宝箱已消失弹框"
+            End If
+        
     Loop    
 End Function
 
@@ -287,7 +296,8 @@ Function 辅助_点击进入聊天界面
     Dim data = Array() 
     data(0) = 常量_标识_能打开聊天界面
     data(1) = 356
-    data(2) = 1218
+    // 1218
+    data(2) = 1250
     data(3) = 常量_标识_在聊天界面
     辅助_点击进入聊天界面=   Ity.匹配到指定标识时_点击指定坐标_直至匹配到某标识(data)
 End Function
@@ -319,44 +329,77 @@ Function 辅助_点击关闭标识
     辅助_点击关闭标识 = Ity.点击指定标识(常量_查找_关闭按钮)
 End Function
 
+Function 辅助_点击确定标识_宝箱已消失弹框
+	// 关闭
+	Dim data = Array() 
+    data(0) = 常量_查找_确定按钮_宝箱已消失弹框
+    data(1) = 353
+    data(2) = 634
+	辅助_点击确定标识_宝箱已消失弹框 = Ity.匹配到指定标识时_点击指定坐标(data)
+End Function
+
+
+Dim 全局_用户设置_间隔毫秒 = 1000
+Dim 全局_用户设置_开关_长时间未拾取重启 = False
+Dim 全局_用户设置_开关_快速关闭宝箱已消失弹框 = False
+
+Function 辅助_加载用户设置
+	全局_用户设置_间隔毫秒 = Ity.ui_rInt("间隔毫秒",1000)
+    全局_用户设置_开关_长时间未拾取重启 = Ity.ui_rBoolean("长时间未拾取，重新启动",false)
+	全局_用户设置_开关_快速关闭宝箱已消失弹框 = Ity.ui_rBoolean("快速关闭宝箱已消失弹框",false)
+
+    If 全局_用户设置_间隔毫秒 <= 0 Then 
+        ShowMessage "间隔不合法，使用默认值1000"
+        全局_用户设置_间隔毫秒 = 1000
+    End If
+	
+End Function
 
 // ==============================
 Function 功能模块()
-    Dim space = Ity.ui_rInt("间隔毫秒",1000)
-    Dim enableRestart = Ity.ui_rBoolean("长时间未拾取，重新启动",false)
 
-    If space <= 0 Then 
-        ShowMessage "间隔不合法，使用默认值1000"
-        Delay 2000
-        
-        space = 1000
-    End If
+    Delay 3000
+    
+    // 加载用户偏好
+    Call 辅助_加载用户设置()
     
     // 时间标记：定时清理内存
     Call ShanHai.TimeSign(1)
+    // 时间标记：定时检查启动游戏
+    Call ShanHai.TimeSign(2)
+    
+    // 首次启动游戏（若需要）
+    Call 系统_启动游戏()
 
     Do
-        Delay space
+        Delay 全局_用户设置_间隔毫秒
     	 
-        // 5 分钟，单位秒
-        If ShanHai.Timer(1, 5 * 60) Then 
-            TracePrint "清理后台内存"
-            ShowMessage "清理内存"
+        // 15分钟清理一次内存
+        If ShanHai.Timer(1, 15 * 60) Then 
+            TracePrint "定时清理后台内存"
             Call 系统_清理后台()
-            Delay 2000
         End If
     	
-        Call 系统_启动游戏()
+    	// 5分钟检查一次游戏重启
+    	If ShanHai.Timer(2, 5 * 60) Then 
+    		TracePrint "定时检查启动游戏"
+    		Call 系统_启动游戏()
+    	End If	
+        
+        // 主要逻辑
         Call 功能_宝箱()
-       
     
-        If enableRestart And 辅助_统计_太久未拾取宝箱() Then 
-        	Call 辅助_统计_拾取了宝箱()
+    	// 关闭游戏的逻辑 
+        If 全局_用户设置_开关_长时间未拾取重启 And 辅助_统计_太久未拾取宝箱() Then 
+        	If Sys.IsRunning(游戏包名) Then 
+        		TracePrint "太久未拾取宝箱，疑似卡死。关闭游戏"
             
-            KillApp 游戏包名
-            TracePrint "太久未拾取宝箱，疑似卡死。关闭游戏"
-            ShowMessage "太久未拾取宝箱，疑似卡死。关闭游戏"
-            Delay 2000
+            	Call 辅助_统计_拾取了宝箱()
+            	KillApp 游戏包名
+            	
+            	Delay 8000
+            	Call 系统_启动游戏()
+        	End If
         End If
     Loop  
 End Function
@@ -368,9 +411,7 @@ Function 系统_启动游戏
     Else 
         // 不在运行
         RunApp 游戏包名
-		
-        ShowMessage "启动游戏"
-        Delay 20*1000
+        Delay 30*1000
     End If
 	
 End Function
